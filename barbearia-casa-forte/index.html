@@ -41,15 +41,18 @@ p.lead{color:var(--g);max-width:60ch}
 nav{display:none;gap:22px;font-size:.9rem;font-weight:600}
 nav a{text-decoration:none;color:var(--g)}
 nav a:hover{color:var(--y)}
+section[id],#topo{scroll-margin-top:86px}
 /* hero */
-.hero{position:relative;min-height:88vh;display:flex;align-items:center;padding:56px 0 96px;background:linear-gradient(180deg,rgba(0,0,0,.72),rgba(0,0,0,.82)),url(img/fachada.webp) center 40%/cover no-repeat}
-.hero .wrap{text-align:center}
-.hero img.logo{width:min(250px,62vw);margin:0 auto 22px}
-.hero h1{font-size:clamp(2rem,8.5vw,4rem);margin-bottom:16px}
+.hero{position:relative;isolation:isolate;min-height:92vh;display:flex;align-items:flex-end;padding:56px 0 88px;background:url(img/fachada-clara.webp) center 42%/cover no-repeat}
+/* vinheta leve: só escurece a base, onde fica o texto; o topo da foto fica livre */
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.10) 0,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 52%,rgba(0,0,0,.38) 78%,rgba(0,0,0,.58) 100%)}
+.hero .wrap{text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.75),0 1px 2px rgba(0,0,0,.9)}
+.hero img.logo{width:min(190px,48vw);margin:0 auto 16px;filter:drop-shadow(0 4px 14px rgba(0,0,0,.6))}
+.hero h1{font-size:clamp(2rem,8.5vw,4rem);margin-bottom:14px}
 .hero h1 em{font-style:normal;color:var(--y)}
-.hero p{color:#e8e8e8;max-width:46ch;margin:0 auto 26px;font-size:1.05rem}
-.hero .btns{justify-content:center}
-.hero small{display:block;margin-top:20px;color:var(--g);padding-inline:8px 72px}
+.hero p{color:#fff;max-width:46ch;margin:0 auto 22px;font-size:1.05rem}
+.hero .btns{justify-content:center;text-shadow:none}
+.hero small{display:block;margin-top:18px;color:#f0f0f0;padding-inline:8px 72px}
 /* faixa */
 .strip{background:var(--y);color:var(--k);overflow:hidden;padding:14px 0;border-block:3px solid var(--k)}
 .strip ul{display:flex;gap:40px;list-style:none;width:max-content;animation:slide 40s linear infinite;font-family:'Archivo Black';text-transform:uppercase;font-size:1rem;white-space:nowrap}
@@ -57,7 +60,23 @@ nav a:hover{color:var(--y)}
 @keyframes slide{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.strip ul{animation:none;flex-wrap:wrap;width:auto;justify-content:center;gap:12px 28px}.strip li::after{display:none}html{scroll-behavior:auto}}
 /* sobre */
-.about{display:grid;gap:28px}
+.about{display:grid;gap:32px;grid-template-areas:"text" "stack" "facts"}
+.about-text{grid-area:text}
+.about .facts{grid-area:facts}
+.stack{grid-area:stack;position:relative;width:min(100%,440px);margin-inline:auto;aspect-ratio:1/1.08;perspective:900px;transform-style:preserve-3d}
+.ph{--r:0deg;--dx:0px;--dy:0px;position:absolute;margin:0;border-radius:18px;overflow:hidden;border:5px solid #fff;background:var(--k3);
+ box-shadow:0 30px 50px -12px rgba(0,0,0,.85),0 12px 18px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.4);
+ transform:rotate(var(--r)) translateZ(0);transform-style:preserve-3d}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 7px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+.ph-a{--r:-6deg;--dx:-10px;--dy:-8px;left:0;top:0;width:63%;aspect-ratio:4/3;z-index:1}
+.ph-b{--r:4deg;--dx:12px;--dy:-4px;right:0;top:19%;width:55%;aspect-ratio:4/5;z-index:2;border-color:var(--y)}
+.ph-c{--r:8deg;--dx:-4px;--dy:10px;left:9%;bottom:0;width:58%;aspect-ratio:1/1;z-index:3}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+ .ph{transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+ .stack:hover .ph{transform:rotate(var(--r)) translate3d(var(--dx),var(--dy),30px)}
+ .stack .ph:hover{z-index:5;transform:rotate(calc(var(--r)*.3)) translate3d(var(--dx),calc(var(--dy) - 12px),70px) scale(1.06);box-shadow:0 44px 64px -14px rgba(0,0,0,.9),0 16px 24px rgba(0,0,0,.5)}
+}
 .facts{display:grid;gap:12px;grid-template-columns:1fr 1fr}
 .fact{background:var(--k2);border:1px solid #2c2c2c;border-radius:var(--r);padding:18px}
 .fact b{display:block;font-family:'Archivo Black';color:var(--y);font-size:1.5rem}
@@ -75,14 +94,43 @@ nav a:hover{color:var(--y)}
 .card.kids p{color:#222}
 .note{margin-top:20px;font-size:.88rem;color:var(--g)}
 /* clubinho */
-.kids-sec{background:var(--y);color:var(--k)}
-.kids-sec .eyebrow{color:var(--k)}
-.kids-sec h2 em{color:var(--k);background:var(--w);padding:0 .15em}
+.kids-sec{--red:#e63946;--blue:#1f6fe0;--green:#22a861;--teal:#38c2b0;--pink:#ff6fa8;position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 1.5px 1.5px,rgba(0,0,0,.09) 1.5px,transparent 2px) 0 0/26px 26px,var(--y);color:var(--k);padding-top:80px}
+.kids-sec::before{content:"";position:absolute;inset:0 0 auto 0;height:14px;z-index:1;background:linear-gradient(90deg,var(--red) 0 20%,var(--blue) 20% 40%,var(--green) 40% 60%,var(--pink) 60% 80%,var(--k) 80% 100%)}
+.kids-sec .shape{position:absolute;z-index:-1;pointer-events:none}
+.s1{width:230px;height:230px;border-radius:50%;background:var(--red);top:-80px;right:-70px}
+.s2{width:150px;height:150px;border-radius:50%;background:var(--blue);bottom:26%;left:-70px}
+.s3{width:110px;height:110px;border-radius:50%;border:16px solid var(--green);top:34%;right:4%}
+.s4{width:260px;height:44px;border-radius:999px;background:var(--pink);bottom:6%;right:-60px;transform:rotate(-18deg)}
+.s5{width:70px;height:70px;border-radius:18px;background:var(--teal);top:9%;left:3%;transform:rotate(18deg)}
+.s6{width:0;height:0;border-left:34px solid transparent;border-right:34px solid transparent;border-bottom:58px solid var(--blue);bottom:3%;left:9%;transform:rotate(-14deg)}
 .kids-grid{display:grid;gap:28px;align-items:center}
 .kids-sec p{max-width:56ch;margin-bottom:14px}
 .kids-sec .btn{background:var(--k);color:var(--y);border-color:var(--k)}
 .kids-sec .btn:hover{background:#222}
-.kids-sec img{border-radius:var(--r);border:4px solid var(--k);width:100%;max-height:560px;object-fit:cover}
+.kids-sec h2 em{color:var(--k);background:var(--w);padding:0 .15em;box-shadow:4px 4px 0 var(--red)}
+.kids-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+.kids-chips li{padding:6px 14px;border-radius:999px;font-weight:700;font-size:.86rem;color:#fff;border:2px solid var(--k);box-shadow:2px 2px 0 var(--k)}
+.kids-chips li:nth-child(1){background:var(--red)}
+.kids-chips li:nth-child(2){background:var(--blue)}
+.kids-chips li:nth-child(3){background:var(--green)}
+.kids-chips li:nth-child(4){background:var(--pink);color:var(--k)}
+.kids-chips li:nth-child(5){background:var(--teal);color:var(--k)}
+.kids-sec figure{margin:0;position:relative;overflow:hidden;border-radius:20px;border:4px solid var(--k);background:var(--k3);color:#fff}
+.kids-sec figure img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.kids-sec figcaption{position:absolute;left:10px;bottom:10px;padding:4px 12px;border-radius:999px;font-size:.74rem;font-weight:700;color:var(--k);background:#fff;border:2px solid var(--k)}
+.promo{aspect-ratio:1/1;max-width:420px;margin-inline:auto;width:100%;transform:rotate(2deg);box-shadow:10px 10px 0 var(--blue)}
+.promo img{object-fit:cover}
+.kmos{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:48px}
+.kmos figure:nth-child(1){grid-column:1/-1;aspect-ratio:4/3;box-shadow:8px 8px 0 var(--red)}
+.kmos figure:nth-child(2){grid-column:1/-1;aspect-ratio:4/3;box-shadow:8px 8px 0 var(--green)}
+.kmos figure:nth-child(3){aspect-ratio:1/1;box-shadow:6px 6px 0 var(--pink)}
+.kmos figure:nth-child(4){aspect-ratio:1/1;box-shadow:6px 6px 0 var(--blue)}
+.kids-note{margin-top:26px;font-size:.84rem;font-weight:600;max-width:70ch}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+ .kids-sec figure:hover img{transform:scale(1.05)}
+ .kmos figure{transition:transform .3s}
+ .kmos figure:hover{transform:translateY(-6px) rotate(-1deg)}
+}
 /* galeria */
 .gal{display:grid;gap:12px;grid-template-columns:1fr 1fr}
 .gal figure{position:relative;border-radius:12px;overflow:hidden;background:var(--k3);aspect-ratio:1/1}
@@ -128,14 +176,26 @@ footer.f a{color:var(--y)}
 @media(min-width:760px){
  section{padding:96px 0}
  nav{display:flex}
- .about{grid-template-columns:1.2fr 1fr;align-items:center}
+ .about{grid-template-columns:1.1fr 1fr;grid-template-areas:"text stack" "facts stack";align-items:center;column-gap:56px}
  .cards{grid-template-columns:repeat(3,1fr)}
- .kids-grid{grid-template-columns:1fr 1fr;gap:56px}
+ .kids-grid{grid-template-columns:1.15fr 1fr;gap:56px}
+ .kmos{grid-template-columns:repeat(12,1fr);grid-auto-rows:210px;gap:20px}
+ .kmos figure:nth-child(n){aspect-ratio:auto;grid-column:auto}
+ .kmos figure:nth-child(1){grid-column:span 7;grid-row:span 2}
+ .kmos figure:nth-child(2){grid-column:span 5}
+ .kmos figure:nth-child(3){grid-column:span 3}
+ .kmos figure:nth-child(4){grid-column:span 2}
  .gal{grid-template-columns:repeat(3,1fr);gap:16px}
  .revs{grid-template-columns:repeat(2,1fr)}
  .info{grid-template-columns:1fr 1fr}
- .hero{min-height:82vh}
+ .hero{min-height:82vh;background-position:center 38%}
 }
+@media(max-width:759px){
+ .hero{min-height:86vh;background-position:center 55%;padding:48px 0 64px}
+ .hero::before{background:linear-gradient(180deg,rgba(0,0,0,.08) 0,rgba(0,0,0,0) 14%,rgba(0,0,0,0) 40%,rgba(0,0,0,.32) 68%,rgba(0,0,0,.52) 100%)}
+ .stack{margin-block:8px 12px}
+}
+
 </style>
 </head>
 <body>
@@ -173,7 +233,7 @@ footer.f a{color:var(--y)}
 
 <section id="sobre">
   <div class="wrap about">
-    <div>
+    <div class="about-text">
       <p class="eyebrow">Sobre</p>
       <h2>Um lugar para a <em>família toda</em></h2>
       <p class="lead">A Casa Forte atende adultos e crianças. De um lado, a barbearia com corte, barba e cuidados. Do outro, o Clubinho Kids, um espaço colorido pensado para a criançada.</p>
@@ -184,6 +244,11 @@ footer.f a{color:var(--y)}
       <div class="fact"><b>200</b><span>Avaliações no Google</span></div>
       <div class="fact"><b>2016</b><span>Empresa aberta (dado cadastral público)</span></div>
       <div class="fact"><b>♿</b><span>Entrada e estacionamento com acessibilidade</span></div>
+    </div>
+    <div class="stack">
+      <figure class="ph ph-a"><img src="img/salao-adulto.webp" alt="Salão adulto com parede de tijolo, espelhos e cadeiras profissionais" loading="lazy"><figcaption>Barbearia</figcaption></figure>
+      <figure class="ph ph-b"><img src="img/clubinho-mural.webp" alt="Clubinho Kids com mural de super-heróis em estilo LEGO, nichos coloridos com TVs e cadeira em formato de carrinho amarelo" loading="lazy"><figcaption>Clubinho Kids</figcaption></figure>
+      <figure class="ph ph-c"><img src="img/clubinho-sala-amarela.webp" alt="Sala amarela do Clubinho Kids com fliperama, piscina de bolinhas e mesa infantil com cadeiras coloridas" loading="lazy"><figcaption>Clubinho Kids</figcaption></figure>
     </div>
   </div>
 </section>
@@ -214,17 +279,30 @@ footer.f a{color:var(--y)}
 </section>
 
 <section id="clubinho" class="kids-sec">
-  <div class="wrap kids-grid">
-    <div>
-      <p class="eyebrow">Clubinho Kids</p>
-      <h2>Corte com carinho, <em>resultado com confiança!</em></h2>
-      <p>O Clubinho Kids é o espaço infantil da Casa Forte. Ambiente colorido e lúdico, pensado para a criançada se sentir à vontade na hora do corte.</p>
-      <p>Cortes, penteados, escova, hidratação e pintura colorida, com atenção e paciência para cada criança.</p>
-      <div class="btns">
-        <a class="btn" href="https://wa.me/5581985657470?text=Ol%C3%A1%21%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio%20no%20Clubinho%20Kids%20da%20Barbearia%20Casa%20Forte.%20Pode%20me%20ajudar%3F" target="_blank" rel="noopener">Agendar para a criança</a>
+  <span class="shape s1" aria-hidden="true"></span><span class="shape s2" aria-hidden="true"></span><span class="shape s3" aria-hidden="true"></span><span class="shape s4" aria-hidden="true"></span><span class="shape s5" aria-hidden="true"></span><span class="shape s6" aria-hidden="true"></span>
+  <div class="wrap">
+    <div class="kids-grid">
+      <div>
+        <p class="eyebrow">Clubinho Kids</p>
+        <h2>Corte com carinho, <em>resultado com confiança!</em></h2>
+        <p>O Clubinho Kids é o espaço infantil da Casa Forte. Ambiente colorido e lúdico, pensado para a criançada se sentir à vontade na hora do corte.</p>
+        <p>Cortes, penteados, escova, hidratação e pintura colorida, com atenção e paciência para cada criança.</p>
+        <ul class="kids-chips" aria-label="O que aparece nas fotos do espaço">
+          <li>Mural de super-heróis</li><li>Cadeiras-carrinho</li><li>Videogame</li><li>Fliperama</li><li>Piscina de bolinhas</li>
+        </ul>
+        <div class="btns">
+          <a class="btn" href="https://wa.me/5581985657470?text=Ol%C3%A1%21%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio%20no%20Clubinho%20Kids%20da%20Barbearia%20Casa%20Forte.%20Pode%20me%20ajudar%3F" target="_blank" rel="noopener">Agendar para a criança</a>
+        </div>
       </div>
+      <figure class="promo"><img src="img/promo-clubinho.webp" alt="Arte oficial do Clubinho Kids com os slogans da Casa Forte, em amarelo e preto" loading="lazy"></figure>
     </div>
-    <img src="img/promo-clubinho.webp" alt="Arte oficial do Clubinho Kids com os slogans da Casa Forte, em amarelo e preto" loading="lazy">
+    <div class="kmos">
+      <figure><img src="img/clubinho-mural.webp" alt="Mural de super-heróis em estilo LEGO, nichos amarelo, vermelho e verde-água com TVs e cadeira em formato de carrinho amarelo" loading="lazy"><figcaption>Mural de super-heróis</figcaption></figure>
+      <figure><img src="img/clubinho-sala-amarela.webp" alt="Sala amarela com fliperama, piscina de bolinhas coloridas e mesa infantil com cadeiras rosa, verde e lilás" loading="lazy"><figcaption>Fliperama e piscina de bolinhas</figcaption></figure>
+      <figure><img src="img/clubinho-carrinho.webp" alt="Cadeiras em formato de carrinho no Clubinho Kids" loading="lazy"><figcaption>Cadeiras-carrinho</figcaption></figure>
+      <figure><img src="img/clubinho-videogame.webp" alt="Videogame no Clubinho Kids" loading="lazy"><figcaption>Videogame</figcaption></figure>
+    </div>
+    <p class="kids-note">Fotos do espaço publicadas no Google Maps (a do mural é de mar/2022); o ambiente pode ter mudado desde então.</p>
   </div>
 </section>
 
@@ -238,7 +316,7 @@ footer.f a{color:var(--y)}
       <figure><img src="img/clubinho-videogame.webp" alt="Clubinho Kids com videogame" loading="lazy"><figcaption>Clubinho Kids</figcaption></figure>
       <figure><img src="img/corte-01.webp" alt="Corte masculino no salão adulto" loading="lazy"><figcaption>Corte adulto</figcaption></figure>
       <figure><img src="img/corte-02.webp" alt="Corte masculino sendo finalizado" loading="lazy"><figcaption>Corte adulto</figcaption></figure>
-      <figure><img src="img/fachada.webp" alt="Fachada preta da Barbearia Casa Forte com logo em madeira e rampa de acesso" loading="lazy"><figcaption>Fachada · Rua do Chacon, 164</figcaption></figure>
+      <figure><img src="img/fachada-clara.webp" alt="Fachada preta da Barbearia Casa Forte com logo em madeira e rampa de acesso" loading="lazy"><figcaption>Fachada · Rua do Chacon, 164</figcaption></figure>
     </div>
   </div>
 </section>
