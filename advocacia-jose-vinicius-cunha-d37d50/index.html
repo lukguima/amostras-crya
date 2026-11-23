@@ -40,7 +40,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(245,243,238,.92);backdro
 header.rolou{border-bottom-color:var(--line)}
 .topo{display:flex;align-items:center;justify-content:space-between;height:76px}
 .marca{display:flex;align-items:center;gap:12px}
-.marca img{width:44px;height:44px;object-fit:cover;object-position:50% 22%;border-radius:50%;background:#fff;border:1px solid var(--line)}
+.marca .lg{width:46px;height:46px;border-radius:50%;overflow:hidden;background:#fff;border:1px solid var(--line);flex:none;position:relative}
+.marca .lg img{position:absolute;width:104px;max-width:none;left:50%;top:-4px;transform:translateX(-50%)}
 .marca b{font:600 19px/1.1 var(--serif);letter-spacing:.02em;display:block}
 .marca small{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 nav{display:flex;align-items:center;gap:34px;font-size:14px;color:var(--muted)}
@@ -166,7 +167,7 @@ footer.rodape .wrap{display:flex;justify-content:space-between;gap:20px;flex-wra
 
 <header id="topo">
   <div class="wrap topo">
-    <a href="#" class="marca"><img src="img/logo.jpg" alt="Logo José Vinícius Cunha Advocacia"><span><b>José Vinícius Cunha</b><small>Advocacia</small></span></a>
+    <a href="#" class="marca"><span class="lg"><img src="img/logo.jpg" alt="Logo José Vinícius Cunha Advocacia"></span><span><b>José Vinícius Cunha</b><small>Advocacia</small></span></a>
     <nav>
       <a class="lk" href="#atuacao">Atuação</a>
       <a class="lk" href="#escritorio">Escritório</a>
@@ -189,7 +190,7 @@ footer.rodape .wrap{display:flex;justify-content:space-between;gap:20px;flex-wra
     </div>
     <div class="nota rv">
       <strong>5,0</strong>
-      <div><div class="estrelas">★★★★★</div><p>204 avaliações no Google, todas com nota máxima na média.</p></div>
+      <div><div class="estrelas">★★★★★</div><p>Média no Google, a partir de 204 avaliações de clientes.</p></div>
     </div>
   </div>
   <figure class="hero-foto">
@@ -212,7 +213,7 @@ footer.rodape .wrap{display:flex;justify-content:space-between;gap:20px;flex-wra
   <div class="wrap">
     <div class="sec-cab">
       <h2 class="rv">Onde o escritório<br><em>atua</em></h2>
-      <p class="rv">As áreas abaixo vêm do que os próprios clientes contam nas avaliações. No site oficial, o escritório descreve cada uma com as palavras dele.</p>
+      <p class="rv">Atuação próxima, do primeiro atendimento ao resultado, para pessoas e empresas de Altamira e de fora dela.</p>
     </div>
     <div class="areas">
       <article class="area rv"><span class="n">01</span>
